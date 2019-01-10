@@ -88,23 +88,24 @@ void DrawText(double x, double y, char *string)
 void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
+	double radius = 30;
 
 	// Test lines that draw all three shapes and some text.
 	// Delete these when you get your code working.
 	glColor3d(0,0,1);
 
-	if (x + 50 + dx >= screen_x)
+	if (x + dx + radius >= screen_x)
 		dx = -dx;
-	if (x + dx < 0)
+	if (x -radius + dx < 0)
 		dx = -dx;
-	if (y + 50 + dy >= screen_y)
+	if (y + dy + radius >= screen_y)
 		dy = -dy;
-	if (y + dy < 0)
+	if (y - radius + dy < 0)
 		dy = -dy;
 	x += dx;
 	y += dy;
 
-	DrawRectangle(x, y, x + 50, y + 50);
+	DrawCircle(x, y, radius);
 
 	glutSwapBuffers();
 	glutPostRedisplay();
