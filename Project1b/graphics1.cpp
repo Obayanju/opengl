@@ -19,7 +19,10 @@
 // Global Variables (Only what you need!)
 double screen_x = 700;
 double screen_y = 500;
-
+double x = 200;
+double y = 200;
+double dx = .1;
+double dy = .17;
 
 // 
 // Functions that draw basic primitives
@@ -89,10 +92,22 @@ void display(void)
 	// Test lines that draw all three shapes and some text.
 	// Delete these when you get your code working.
 	glColor3d(0,0,1);
-	DrawTriangle(300, 300, 350, 300, 350, 350);
 
-	glColor3d(0,0,0);
+	if (x + 50 + dx >= screen_x)
+		dx = -dx;
+	if (x + dx < 0)
+		dx = -dx;
+	if (y + 50 + dy >= screen_y)
+		dy = -dy;
+	if (y + dy < 0)
+		dy = -dy;
+	x += dx;
+	y += dy;
+
+	DrawRectangle(x, y, x + 50, y + 50);
+
 	glutSwapBuffers();
+	glutPostRedisplay();
 }
 
 
