@@ -89,13 +89,9 @@ void display(void)
 	// Test lines that draw all three shapes and some text.
 	// Delete these when you get your code working.
 	glColor3d(0,0,1);
-	DrawRectangle(200, 200, 250, 250);
 	DrawTriangle(300, 300, 350, 300, 350, 350);
-	DrawCircle(50, 50, 30);
 
 	glColor3d(0,0,0);
-	DrawText(10,100,"Can you see this black text and 3 blue shapes?");
-
 	glutSwapBuffers();
 }
 
