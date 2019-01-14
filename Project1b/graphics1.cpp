@@ -14,15 +14,36 @@
 #include <cmath>
 #include <cstring>
 #include "glut.h"
-
+#include <vector>
+#include <stdlib.h>
+#include <stdio.h>
+#include <iostream>
+#include "Circle.h"
 
 // Global Variables (Only what you need!)
 double screen_x = 700;
 double screen_y = 500;
-double x = 200;
-double y = 200;
-double dx = .1;
-double dy = .17;
+std::vector<Circle> circles;
+
+// Your initialization code goes here.
+void InitializeMyStuff()
+{
+	for (int i = 0; i < 20; i++)
+	{
+		double radius = rand() % 50 + 10;
+		double x = rand() % (int)(screen_x - (radius*2)) + radius;
+		double y = rand() % (int)(screen_y - (radius*2)) + radius;
+		double r = (double)rand() / RAND_MAX;
+		double g = (double)rand() / RAND_MAX;
+		double b = (double)rand() / RAND_MAX;
+		Circle circle(x, y, radius, r, g, b);
+		circle.setDx(.01);
+		circle.setDy(.09);
+		circles.push_back(circle);
+
+	}
+}
+
 
 // 
 // Functions that draw basic primitives
@@ -88,24 +109,28 @@ void DrawText(double x, double y, char *string)
 void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
-	double radius = 30;
+	for (size_t i = 0; i < circles.size(); i++) {
+		double x = circles[i].getX();
+		double dX = circles[i].getDx();
+		double y = circles[i].getY();
+		double dY = circles[i].getDy();
+		double radius = circles[i].getRadius();
 
-	// Test lines that draw all three shapes and some text.
-	// Delete these when you get your code working.
-	glColor3d(0,0,1);
+		if (x + dX + radius >= screen_x)
+			circles[i].setDx(-dX);
+		if (x - radius + dX < 0)
+			circles[i].setDx(-dX);
+		if (y + dY + radius >= screen_y)
+			circles[i].setDy(-dY);
+		if (y - radius + dY < 0)
+			circles[i].setDy(-dY);
 
-	if (x + dx + radius >= screen_x)
-		dx = -dx;
-	if (x -radius + dx < 0)
-		dx = -dx;
-	if (y + dy + radius >= screen_y)
-		dy = -dy;
-	if (y - radius + dy < 0)
-		dy = -dy;
-	x += dx;
-	y += dy;
+		glColor3d(circles[i].getR(), circles[i].getG(), circles[i].getB());
+		DrawCircle(x + dX, y + dY, radius);
 
-	DrawCircle(x, y, radius);
+		circles[i].setX(x + dX);
+		circles[i].setY(y + dY);
+	}
 
 	glutSwapBuffers();
 	glutPostRedisplay();
@@ -168,11 +193,6 @@ void mouse(int mouse_button, int state, int x, int y)
 	{
 	}
 	glutPostRedisplay();
-}
-
-// Your initialization code goes here.
-void InitializeMyStuff()
-{
 }
 
 
