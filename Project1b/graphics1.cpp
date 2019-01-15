@@ -109,6 +109,7 @@ void DrawText(double x, double y, char *string)
 void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
+	double G = 0.03;
 	for (size_t i = 0; i < circles.size(); i++) {
 		double x = circles[i].getX();
 		double dX = circles[i].getDx();
@@ -125,11 +126,19 @@ void display(void)
 		if (y - radius + dY < 0)
 			circles[i].setDy(-dY);
 
-		glColor3d(circles[i].getR(), circles[i].getG(), circles[i].getB());
-		DrawCircle(x + dX, y + dY, radius);
+		if (y + dY > y) {
+			// going up
+			circles[i].setY(y + circles[i].getDy() - G);
+		}
+		else if (y + dY < y) {
+			// coming down
+			circles[i].setY(y + circles[i].getDy() - G);
+		}
 
 		circles[i].setX(x + dX);
-		circles[i].setY(y + dY);
+
+		glColor3d(circles[i].getR(), circles[i].getG(), circles[i].getB());
+		DrawCircle(circles[i].getX(), circles[i].getY(), radius);
 	}
 
 	glutSwapBuffers();
