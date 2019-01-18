@@ -22,7 +22,8 @@ public:
 	void setX(double x) { mX = x;  }
 	void setY(double y) { mY = y; }
 
-	void step(int myself, Circle all[], int count);
+	void Step(int myself, Circle all[], int count);
+	void updatePosition(double G, double screen_x, double screen_y);
 private:
 	double mX, mY, mRadius;
 	double mXDir, mYDir;

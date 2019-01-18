@@ -224,27 +224,10 @@ void display(void)
 	glClear(GL_COLOR_BUFFER_BIT);
 	double G = .00002;
 	for (size_t i = 0; i < circles.size(); i++) {
-		double x = circles[i].getX();
-		double dX = circles[i].getDx();
-		double y = circles[i].getY();
-		double dY = circles[i].getDy();
-		double radius = circles[i].getRadius();
-
-		if (x + dX + radius >= screen_x)
-			circles[i].setDx(-dX);
-		if (x - radius + dX < 0)
-			circles[i].setDx(-dX);
-		if (y + dY + radius >= screen_y)
-			circles[i].setDy(-dY);
-		if (y - radius + dY < 0)
-			circles[i].setDy(-dY);
-
-		circles[i].setDy(circles[i].getDy() - G);
-		circles[i].setY(y + circles[i].getDy());
-		circles[i].setX(x + circles[i].getDx());
+		circles[i].updatePosition(G, screen_x, screen_y);
 
 		glColor3d(circles[i].getR(), circles[i].getG(), circles[i].getB());
-		DrawCircle(circles[i].getX(), circles[i].getY(), radius);
+		DrawCircle(circles[i].getX(), circles[i].getY(), circles[i].getRadius());
 	}
 
 	for (int i = 0; i < circles.size()-1; i++) {
